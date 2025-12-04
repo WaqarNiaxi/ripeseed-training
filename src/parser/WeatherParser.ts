@@ -1,39 +1,45 @@
-// WeatherParser.ts
 var fs = require("fs");
-var path = require("path");
 
-const filePath = path.join(
-  __dirname,
-  "../../public/weatherfiles/Murree_weather_2004_Aug.txt"
-);
 
-const dataParser = (year: string): any[] | undefined => {
+// const filePath = path.join("public/weatherfiles/Murree_weather_2004_Aug.txt");
+
+const normalizeKey = (key: string): string => {
+  return key
+    .trim() 
+    .replace(/\s+/g, "") 
+    .replace("Km/h", "KmH") 
+};
+
+const parseValue = (value: string): string | number | null => {
+  const trimmed = value.trim();
+  if (trimmed === "") return null;
+  if (!isNaN(Number(trimmed))) return Number(trimmed);
+  return trimmed;
+};
+
+const dataParser = (filePath:string): object[] | undefined => {
   try {
     const content = fs.readFileSync(filePath, "utf-8");
-    const lines = content.split(/\n/);
-    var formatedData: any[] = [];
-    if (lines.length === 0) return;
+    const lines = content.split(/\n/).filter((line) => line.trim() !== "");
 
-    for (const line of lines) {
-      if (line.trim() === "") continue; 
-      formatedData.push(line.split(","));
-    }
+    let rows: string[][] = lines.map((line) => line.split(","));
 
-    const keys = formatedData.shift();
+    let keys = rows.shift();
+    if (!keys) throw new Error("Keys row missing in file.");
 
-    const formatted = formatedData.reduce((agg, arr) => {
-      agg.push(
-        arr.reduce((obj: any, item: string, index: number) => {
-          obj[keys[index]] = item;
-          return obj;
-        }, {})
-      );
-      return agg;
-    }, []);
-    console.log(formatted[0]);
+    
+    const normalizedKeys = keys.map(normalizeKey);
 
-
-    return formatedData;
+     
+    const formatted = rows.map((rowArr) => {
+      let obj: any = {};
+      rowArr.forEach((item, index) => {
+        const key = normalizedKeys[index];
+        obj[key] = parseValue(item);
+      });
+      return obj;
+    });
+    return formatted;
   } catch (err) {
     console.error("Error reading file:", err);
     return;
