@@ -14,4 +14,9 @@ export interface MonthlyAverage {
  avgLowTemp: number;
  avgHumidity: number;
 }
+export interface ChartReport{
+highTemperature:number,
+lowTemperature:number,
+meanHumidity:number,
+}
 

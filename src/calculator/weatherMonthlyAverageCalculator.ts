@@ -7,7 +7,6 @@ let monthlyAverageCaculator = (
   dataDir: string,
   monthlyAvgFlag: string
 ): MonthlyAverage => {
-  console.log(dataDir, monthlyAvgFlag);
   let yearAndDate = monthlyAvgFlag.split("/");
   var months = [
     "Jan",
@@ -28,12 +27,10 @@ let monthlyAverageCaculator = (
     months[Number(yearAndDate[1]) - 1]
   }`;
 
-  // Create full directoryPath
-  const directoryPath = path.join("public", dataDir);
-  const files = fs.readdirSync(directoryPath);
-
+  
+  const files = fs.readdirSync(dataDir);
   const fileName = files.filter((file) => file.includes(selectedMonthAndYear));
-  const data = dataParser(directoryPath + "/" + fileName);
+  const data = dataParser(dataDir + "/" + fileName);
 
   let totalMaxTemperatureC = 0;
   let totalMinTemperatureC = 0;

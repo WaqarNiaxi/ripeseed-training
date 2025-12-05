@@ -1,8 +1,6 @@
 var fs = require("fs");
 
 
-// const filePath = path.join("public/weatherfiles/Murree_weather_2004_Aug.txt");
-
 const normalizeKey = (key: string): string => {
   return key
     .trim() 
@@ -20,9 +18,9 @@ const parseValue = (value: string): string | number | null => {
 const dataParser = (filePath:string): object[] | undefined => {
   try {
     const content = fs.readFileSync(filePath, "utf-8");
-    const lines = content.split(/\n/).filter((line) => line.trim() !== "");
+    const lines = content.split(/\n/).filter((line:string) => line.trim() !== "");
 
-    let rows: string[][] = lines.map((line) => line.split(","));
+    let rows: string[][] = lines.map((line:string) => line.split(","));
 
     let keys = rows.shift();
     if (!keys) throw new Error("Keys row missing in file.");

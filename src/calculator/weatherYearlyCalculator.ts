@@ -4,17 +4,15 @@ const dataParser = require("../parser/weatherParser");
 import type { YearlyReport } from "../interfaces/WeatherInterface.types";
 
 let yearlyCaculator = (dataDir:string, yearlyFlag:string): YearlyReport => {
-  // Create full directoryPath
-  const directoryPath = path.join("public", dataDir);
-
-  const files = fs.readdirSync(directoryPath);
+ 
+  const files = fs.readdirSync(dataDir);
 
   // Filter files
-  const yearFiles = files.filter((file) => file.includes(yearlyFlag));
+  const yearFiles = files.filter((file:string) => file.includes(yearlyFlag));
 
   let wholeData = [];
   for (let i = 0; i < yearFiles.length; i++) {
-    wholeData.push(dataParser(directoryPath + "/" + yearFiles[i]));
+    wholeData.push(dataParser(dataDir + "/" + yearFiles[i]));
   }
 
   wholeData=wholeData.flat(Infinity);
@@ -29,7 +27,7 @@ const result = getWeatherStats(wholeData);
 
 
 
-function getWeatherStats(wholeData) {
+function getWeatherStats(wholeData:any[]) {
   let highestTemp = null;
   let lowestTemp = null;
   let highestHumidity = null;
