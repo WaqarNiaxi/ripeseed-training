@@ -2,42 +2,20 @@ const fs = require("fs");
 const path = require("path");
 const dataParser = require("../parser/weatherParser");
 import type { YearlyReport } from "../interfaces/WeatherInterface.types";
+const { yearlyData } = require("../helper/common");
 
-let yearlyCaculator = (dataDir:string, yearlyFlag:string): YearlyReport => {
- 
-  const files = fs.readdirSync(dataDir);
+let yearlyCaculator = (dataDir: string, yearlyFlag: string): YearlyReport => {
+  let wholeData = yearlyData(dataDir, yearlyFlag, dataParser);
 
-  // Filter files
-  const yearFiles = files.filter((file:string) => file.includes(yearlyFlag));
-
-  let wholeData = [];
-  for (let i = 0; i < yearFiles.length; i++) {
-    wholeData.push(dataParser(dataDir + "/" + yearFiles[i]));
-  }
-
-  wholeData=wholeData.flat(Infinity);
-
-
-
-const result = getWeatherStats(wholeData);
-
-  return result;
-};
-
-
-
-
-function getWeatherStats(wholeData:any[]) {
-  let highestTemp = null;
-  let lowestTemp = null;
-  let highestHumidity = null;
+  let highestTemp: number | null = null;
+  let lowestTemp: number | null = null;
+  let highestHumidity: number | null = null;
 
   let highestTempDate = new Date();
   let lowestTempDate = new Date();
   let highestHumidityDate = new Date();
 
-  wholeData.forEach((item) => {
-    
+  wholeData.forEach((item: any) => {
     if (item.MaxTemperatureC !== null) {
       if (highestTemp === null || item.MaxTemperatureC > highestTemp) {
         highestTemp = item.MaxTemperatureC;
@@ -45,7 +23,6 @@ function getWeatherStats(wholeData:any[]) {
       }
     }
 
-    
     if (item.MinTemperatureC !== null) {
       if (lowestTemp === null || item.MinTemperatureC < lowestTemp) {
         lowestTemp = item.MinTemperatureC;
@@ -53,7 +30,6 @@ function getWeatherStats(wholeData:any[]) {
       }
     }
 
-    
     if (item.MaxHumidity !== null) {
       if (highestHumidity === null || item.MaxHumidity > highestHumidity) {
         highestHumidity = item.MaxHumidity;
@@ -62,13 +38,11 @@ function getWeatherStats(wholeData:any[]) {
     }
   });
 
-
-
   return {
     highestTemp: { value: highestTemp, date: highestTempDate },
     lowestTemp: { value: lowestTemp, date: lowestTempDate },
-    mostHumidDay: { value: highestHumidity, date: highestHumidityDate }
+    mostHumidDay: { value: highestHumidity, date: highestHumidityDate },
   };
-}
+};
 
 module.exports = yearlyCaculator;

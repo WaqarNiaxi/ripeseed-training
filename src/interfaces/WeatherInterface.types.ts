@@ -5,9 +5,9 @@ export interface WeatherReading {
  humidity: number;
 }
 export interface YearlyReport {
- highestTemp: { value: number; date: Date };
- lowestTemp: { value: number; date: Date };
- mostHumidDay: { value: number; date: Date };
+ highestTemp: { value: number|null; date: Date |null};
+ lowestTemp: { value: number|null; date: Date |null};
+ mostHumidDay: { value: number|null; date: Date |null};
 }
 export interface MonthlyAverage {
  avgHighTemp: number;
@@ -20,3 +20,15 @@ lowTemperature:number,
 meanHumidity:number,
 }
 
+export interface ReportFunction{
+    dir:number,
+    value:number, 
+    tota?:number
+}
+
+
+export interface MonthlyAverageData{
+    MaxTemperatureC:number|null|undefined,
+    MinTemperatureC:number|null|undefined,
+    MeanHumidity:number|null|undefined
+}
