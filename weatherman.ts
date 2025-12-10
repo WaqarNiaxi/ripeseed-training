@@ -6,16 +6,23 @@ const monthlyChartReport = require("./src/report/monthlyChartReport");
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
 
-const argv = yargs(hideBin(process.argv)).parse();
+const argv = yargs(hideBin(process.argv))
+  .option("extremes", { alias: ["e"]})
+  .option("chart", { alias: ["c"]})
+  .option("average", { alias: ["a"]})
+  .parse();
 
-if (argv.e) {
-  yearlyReport(argv._[0], argv.e);
+
+let dirPath=argv._[0];
+
+if (argv.extremes) {
+  yearlyReport(dirPath, argv.extremes);
 }
 
-if (argv.c) {
-  monthlyChartReport(argv._[0], argv.c, Object.keys(argv).length);
+if (argv.chart) {
+  monthlyChartReport(dirPath, argv.chart, Object.keys(argv).length);
 }
 
-if (argv.a) {
-  monthlyAverageReport(argv._[0], argv.a);
+if (argv.average) {
+  monthlyAverageReport(dirPath, argv.average);
 }

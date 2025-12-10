@@ -5,44 +5,42 @@ import type {
   MonthlyAverageData,
 } from "../interfaces/WeatherInterface.types";
 
-let monthlyAverageCaculator = (
+const monthlyAverageCalculator = (
   dataDir: string,
   monthlyAvgFlag: string
 ): MonthlyAverage => {
-  
-  const data: Array<MonthlyAverageData> = getFileDataByMonth(
+  const data: MonthlyAverageData[] = getFileDataByMonth(
     dataDir,
     monthlyAvgFlag,
     dataParser
   );
 
-  let totalMaxTemperatureC: number = 0;
-  let totalMinTemperatureC: number = 0;
-  let totalMeanHumidity: number = 0;
+  if (data.length === 0) {
+    return {
+      avgHighTemp: 0,
+      avgLowTemp: 0,
+      avgHumidity: 0,
+    };
+  }
 
 
+  const acc = { totalMax: 0, totalMin: 0, totalHumidity: 0 };
 
-    data.forEach((item)=>{
+  for (const item of data) {
+    acc.totalMax += item.MaxTemperatureC ?? 0;
+    acc.totalMin += item.MinTemperatureC ?? 0;
+    acc.totalHumidity += item.MeanHumidity ?? 0;
+  }
 
-    if (item.MaxTemperatureC != null) {
-      totalMaxTemperatureC += item.MaxTemperatureC;
-    }
+  const { totalMax, totalMin, totalHumidity } = acc;
 
-    if (item.MinTemperatureC != null) {
-      totalMinTemperatureC += item.MinTemperatureC;
-    }
-
-    if (item.MeanHumidity != null) {
-      totalMeanHumidity += item.MeanHumidity;
-    }
-  })
-    
+  const length = data.length;
 
   return {
-    avgHighTemp: Math.round(totalMaxTemperatureC / data.length),
-    avgLowTemp: Math.round(totalMinTemperatureC / data.length),
-    avgHumidity: Math.round(totalMeanHumidity / data.length),
+    avgHighTemp: Math.round(totalMax / length),
+    avgLowTemp: Math.round(totalMin / length),
+    avgHumidity: Math.round(totalHumidity / length),
   };
 };
 
-module.exports = monthlyAverageCaculator;
+module.exports = monthlyAverageCalculator;

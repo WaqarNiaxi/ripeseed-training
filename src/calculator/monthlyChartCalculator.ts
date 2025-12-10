@@ -12,11 +12,13 @@ let monthlyChartCaculator = (
     dataParser
   );
 
-  return data.map((item: any) => ({
+  let result = data.map((item: any) => ({
     highTemperature: item.MaxTemperatureC,
     lowTemperature: item.MinTemperatureC,
     meanHumidity: item.MeanHumidity,
   }));
+
+  return result;
 };
 
 module.exports = monthlyChartCaculator;
