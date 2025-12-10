@@ -1,12 +1,9 @@
-const dataParser = require("../parser/weatherParser");
-import type { YearlyReport } from "../interfaces/WeatherInterface.types";
-const { yearlyData } = require("../helper/common");
+import type { YearlyReport ,WeatherData} from "../interfaces/WeatherInterface.types";
 
 const yearlyCaculator = (
-  dataDir: string,
-  yearlyFlag: string
+  data:WeatherData[]
 ): YearlyReport => {
-  const wholeData = yearlyData(dataDir, yearlyFlag, dataParser);
+ 
 
   const result = {
     highestTemp: { value: -Infinity, date: null as Date | null },
@@ -14,7 +11,7 @@ const yearlyCaculator = (
     mostHumidDay:{ value: -Infinity, date: null as Date | null },
   };
 
-  for (const item of wholeData) {
+  for (const item of data) {
     const date = new Date(item.PKT);
 
     const maxTemp = item.MaxTemperatureC ?? 0;

@@ -1,19 +1,12 @@
-const dataParser = require("../parser/weatherParser");
-const { getFileDataByMonth } = require("../helper/common");
 import type {
   MonthlyAverage,
-  MonthlyAverageData,
+  WeatherData
 } from "../interfaces/WeatherInterface.types";
 
 const monthlyAverageCalculator = (
-  dataDir: string,
-  monthlyAvgFlag: string
+  data:WeatherData[]
 ): MonthlyAverage => {
-  const data: MonthlyAverageData[] = getFileDataByMonth(
-    dataDir,
-    monthlyAvgFlag,
-    dataParser
-  );
+
 
   if (data.length === 0) {
     return {

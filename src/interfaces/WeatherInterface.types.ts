@@ -32,3 +32,39 @@ export interface MonthlyAverageData{
     MinTemperatureC:number|null|undefined,
     MeanHumidity:number|null|undefined
 }
+
+
+
+export interface WeatherData {
+  PKT: string;
+
+  MaxTemperatureC: number | null;
+  MeanTemperatureC: number | null;
+  MinTemperatureC: number | null;
+
+  DewPointC: number | null;
+  MeanDewPointC: number | null;
+  MinDewpointC: number | null;
+
+  MaxHumidity: number | null;
+  MeanHumidity: number | null;
+  MinHumidity: number | null;
+
+  MaxSeaLevelPressurehPa: number | null;
+  MeanSeaLevelPressurehPa: number | null;
+  MinSeaLevelPressurehPa: number | null;
+
+  MaxVisibilityKm: number | null;
+  MeanVisibilityKm: number | null;
+  MinVisibilitykM: number | null;
+
+  MaxWindSpeedKmH: number | null;
+  MeanWindSpeedKmH: number | null;
+  MaxGustSpeedKmH: number | null;
+
+  Precipitationmm: number | null;
+  CloudCover: number | null;
+
+  Events: string | null;
+  WindDirDegrees: number | null;
+}

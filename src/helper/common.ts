@@ -23,7 +23,7 @@ const getFileDataByMonth = (
   yearMonth: string,
   parser: Function
 ): [] => {
-  const year = yearMonth.split("/")[0];
+  const year = yearMonth.split("/")[0] ||yearMonth ;
   const monthName = getMonthName(yearMonth);
   const searchKey = `${year}_${monthName}`;
 

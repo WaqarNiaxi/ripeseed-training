@@ -1,10 +1,10 @@
 
 const monthlyAverageCaculator = require("../calculator/monthlyAverageCalculator");
-import type { MonthlyAverage } from "../interfaces/WeatherInterface.types";
+import type { MonthlyAverage ,WeatherData} from "../interfaces/WeatherInterface.types";
 
 
-let monthlyAverageReport = (dataDir: string, monthlyAvgFlag: string) :MonthlyAverage=> {
- let resultAverage= monthlyAverageCaculator(dataDir,monthlyAvgFlag);
+let monthlyAverageReport = (data:WeatherData[]) :MonthlyAverage=> {
+ let resultAverage= monthlyAverageCaculator(data);
  console.log(resultAverage);
   return resultAverage
 }

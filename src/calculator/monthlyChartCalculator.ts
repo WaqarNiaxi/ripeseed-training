@@ -1,16 +1,9 @@
-const dataParser = require("../parser/weatherParser");
-import type { ChartReport } from "../interfaces/WeatherInterface.types";
-const { getFileDataByMonth } = require("../helper/common");
+import type { ChartReport,WeatherData } from "../interfaces/WeatherInterface.types";
 
 let monthlyChartCaculator = (
-  dataDir: string,
-  monthlyAvgFlag: string
+  data:WeatherData[],
 ): ChartReport[] => {
-  const data: Array<ChartReport> = getFileDataByMonth(
-    dataDir,
-    monthlyAvgFlag,
-    dataParser
-  );
+ 
 
   let result = data.map((item: any) => ({
     highTemperature: item.MaxTemperatureC,

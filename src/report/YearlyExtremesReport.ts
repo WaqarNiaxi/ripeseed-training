@@ -1,9 +1,9 @@
 const weatherYearlyCalculator = require("../calculator/yearlyCalculator");
 const { formatDate } = require("../helper/common");
-import type { YearlyReport } from "../interfaces/WeatherInterface.types";
+import type { YearlyReport ,WeatherData} from "../interfaces/WeatherInterface.types";
 
-let yearlyReport = (dataDir: string, yearlyFlag: string): YearlyReport => {
-  let resultYearly = weatherYearlyCalculator(dataDir, yearlyFlag);
+let yearlyReport = (data:WeatherData[]): YearlyReport => {
+  let resultYearly:YearlyReport = weatherYearlyCalculator(data);
 
   console.log(
     `\nHighest: ${resultYearly.highestTemp.value}C on ${formatDate(
