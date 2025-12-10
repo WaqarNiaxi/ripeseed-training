@@ -1,39 +1,43 @@
+"use strict";
+
+const yearlyReport = require("./src/report/yearlyExtremesReport");
+const monthlyAverageReport = require("./src/report/monthlyAverageReport");
+const monthlyChartReport = require("./src/report/monthlyChartReport");
+const yargs = require("yargs");
+const { hideBin } = require("yargs/helpers");
+const dataParser = require("./src/parser/weatherParser");
+const { getFileDataByMonth, yearlyData } = require("./src/helper/common");
+import type { WeatherData } from "./src/interfaces/WeatherInterface.types";
+
+const argv = yargs(hideBin(process.argv))
+  .option("extremes", { alias: ["e"] })
+  .option("chart", { alias: ["c"] })
+  .option("average", { alias: ["a"] })
+  .parse();
+
+let dirPath = argv._[0];
+let argvLength=Object.keys(argv).length;
 
 
-const args = process.argv.slice(2);
-const dataDir = args[0];
-const flags = args.slice(1);
-
-if (!dataDir) {
-  console.error("Error: Please provide a data directory path.");
-  process.exit(1);
+function loadData(flagValue: string, isYearly: boolean): WeatherData[] {
+  return isYearly
+    ? yearlyData(dirPath, flagValue, dataParser)
+    : getFileDataByMonth(dirPath, flagValue, dataParser);
 }
 
 
 
-for (let i = 0; i < flags.length; i++) {
-  switch (flags[i]) {
-    // Yearly report 
-    case "-e": {
-      i++;
-      break;
-    }
+if (argv.extremes) {
+  const data = loadData(argv.extremes, true);
+  yearlyReport(data);
+}
 
-    // Monthly Average Report
-    case "-a": {
-      i++;
-      break;
-    }
+if (argv.chart) {
+  const data = loadData(argv.chart, false);
+  monthlyChartReport(data, argv.chart, argvLength);
+}
 
-    // Monthly Chart Report
-    case "-c": {
-     
-      i++;
-      break;
-    }
-
-    default:
-      // Ignore unknown flags
-      break;
-  }
+if (argv.average) {
+  const data = loadData(argv.average, false);
+  monthlyAverageReport(data);
 }
