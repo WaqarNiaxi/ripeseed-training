@@ -16,6 +16,7 @@ const argv = yargs(hideBin(process.argv))
   .parse();
 
 let dirPath = argv._[0];
+let argvLength=Object.keys(argv).length;
 
 
 function loadData(flagValue: string, isYearly: boolean): WeatherData[] {
@@ -33,7 +34,7 @@ if (argv.extremes) {
 
 if (argv.chart) {
   const data = loadData(argv.chart, false);
-  monthlyChartReport(data, argv.chart, Object.keys(argv).length);
+  monthlyChartReport(data, argv.chart, argvLength);
 }
 
 if (argv.average) {

@@ -5,7 +5,7 @@ let monthlyChartReport = (
   data:WeatherData[],
   monthlyChartFlag:number,
   flagsLength: number
-): ChartReport[] => {
+): void => {
 
   
   let resultChart: ChartReport[] = monthlyChartCaculator(
@@ -28,7 +28,7 @@ let monthlyChartReport = (
     });
   }
 
-  return resultChart;
+
 };
 
 module.exports = monthlyChartReport;
